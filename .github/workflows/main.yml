@@ -1,0 +1,42 @@
+name: Build iOS IPA (Automated Cloud Mac)
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode Version
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer
+
+      - name: Build Project without Code Signing (Generic iOS Device)
+        run: |
+          xcodebuild clean build \
+            -project OpiekunIOS.xcodeproj \
+            -scheme OpiekunIOS \
+            -configuration Release \
+            -destination "generic/platform=iOS" \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            CONFIGURATION_BUILD_DIR=build/Output
+
+      - name: Package .app into .ipa
+        run: |
+          mkdir -p build/Payload
+          cp -r build/Output/OpiekunIOS.app build/Payload/
+          cd build
+          zip -r OpiekunPC.ipa Payload
+          echo "Plik OpiekunPC.ipa zostal pomyslnie utworzony!"
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: OpiekunPC-iOS-IPA
+          path: build/OpiekunPC.ipa
