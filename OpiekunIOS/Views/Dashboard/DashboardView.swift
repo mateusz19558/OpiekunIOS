@@ -1,0 +1,120 @@
+import SwiftUI
+
+public struct DashboardView: View {
+    @ObservedObject var viewModel: GuardianViewModel
+
+    public var body: some View {
+        NavigationStack {
+            ZStack {
+                AppColors.background.ignoresSafeArea()
+
+                ScrollView {
+                    VStack(spacing: 18) {
+                        // Top Status Bar (PC Name, User, Pulse Indicator)
+                        HStack(alignment: .center) {
+                            HStack(spacing: 8) {
+                                Circle()
+                                    .fill(viewModel.isConnected ? AppColors.accentGreen : AppColors.accentRed)
+                                    .frame(width: 8, height: 8)
+                                    .overlay(
+                                        Circle()
+                                            .stroke((viewModel.isConnected ? AppColors.accentGreen : AppColors.accentRed).opacity(0.4), lineWidth: 3)
+                                            .scaleEffect(viewModel.isConnected ? 1.4 : 1.0)
+                                            .animation(.easeInOut(duration: 1.0).repeatForever(), value: viewModel.isConnected)
+                                    )
+
+                                Text(viewModel.isConnected ? "POŁĄCZONO NA ŻYWO" : "BRAK POŁĄCZENIA")
+                                    .font(.system(size: 11, weight: .bold))
+                                    .foregroundColor(viewModel.isConnected ? AppColors.accentGreen : AppColors.accentRed)
+                            }
+
+                            Spacer()
+
+                            // Active Windows user badge
+                            HStack(spacing: 4) {
+                                Image(systemName: "person.crop.circle.fill")
+                                    .font(.system(size: 12))
+                                Text(viewModel.status.currentActiveUser.isEmpty ? "Wszyscy" : viewModel.status.currentActiveUser)
+                                    .font(.system(size: 11, weight: .semibold))
+                            }
+                            .foregroundColor(AppColors.textSecondary)
+                            .padding(.horizontal, 10)
+                            .padding(.vertical, 4)
+                            .background(AppColors.cardBackground)
+                            .clipShape(Capsule())
+                            .overlay(Capsule().stroke(AppColors.cardBorder, lineWidth: 1))
+                        }
+                        .padding(.horizontal, 4)
+
+                        // Pending Time Requests Banners
+                        ForEach(viewModel.status.pendingTimeRequests.filter { $0.isPending }) { req in
+                            TimeRequestAlertBanner(viewModel: viewModel, request: req)
+                        }
+
+                        // Master Lock Card
+                        LockControlCard(viewModel: viewModel)
+
+                        // Activity Gauge & Time Usage Card
+                        TimeUsageRingCard(viewModel: viewModel)
+
+                        // Quick Actions Grid (Firewall, Websites, Apps, Settings)
+                        QuickActionGrid(viewModel: viewModel)
+
+                        Spacer(minLength: 24)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.top, 10)
+                }
+                .refreshable {
+                    await viewModel.refreshStatus()
+                }
+
+                // Toast Notification Overlay
+                if let toast = viewModel.toastMessage {
+                    VStack {
+                        Spacer()
+                        HStack(spacing: 8) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(AppColors.accentGreen)
+                            Text(toast)
+                                .font(.system(size: 13, weight: .bold))
+                                .foregroundColor(.white)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .background(AppColors.cardBackgroundSecondary)
+                        .clipShape(Capsule())
+                        .overlay(Capsule().stroke(AppColors.cardBorder, lineWidth: 1))
+                        .shadow(color: Color.black.opacity(0.4), radius: 10, y: 5)
+                        .padding(.bottom, 20)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                    }
+                    .animation(.spring(response: 0.3, dampingFraction: 0.7), value: viewModel.toastMessage)
+                }
+            }
+            .navigationTitle("Pulpit Opiekuna")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    HStack(spacing: 6) {
+                        Text("🛡️")
+                        Text(viewModel.profile.name)
+                            .font(.system(size: 15, weight: .bold))
+                            .foregroundColor(.white)
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        HapticService.shared.selection()
+                        Task { await viewModel.refreshStatus() }
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                            .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(AppColors.accentBlue)
+                    }
+                }
+            }
+        }
+    }
+}
+

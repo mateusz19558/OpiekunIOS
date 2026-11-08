@@ -1,0 +1,478 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA01000129B7F10000000001 /* OpiekunIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01000129B7F10000000001 /* OpiekunIOSApp.swift */; };
+		AA01000229B7F10000000002 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01000229B7F10000000002 /* Colors.swift */; };
+		AA01000329B7F10000000003 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01000329B7F10000000003 /* ViewModifiers.swift */; };
+		AA01000429B7F10000000004 /* GuardianStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01000429B7F10000000004 /* GuardianStatus.swift */; };
+		AA01000529B7F10000000005 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01000529B7F10000000005 /* AppSettings.swift */; };
+		AA01000629B7F10000000006 /* TimeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01000629B7F10000000006 /* TimeRequest.swift */; };
+		AA01000729B7F10000000007 /* RunningApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01000729B7F10000000007 /* RunningApp.swift */; };
+		AA01000829B7F10000000008 /* LogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01000829B7F10000000008 /* LogEntry.swift */; };
+		AA01000929B7F10000000009 /* ConnectionProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01000929B7F10000000009 /* ConnectionProfile.swift */; };
+		AA01001029B7F10000000010 /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01001029B7F10000000010 /* APIService.swift */; };
+		AA01001129B7F10000000011 /* SSEClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01001129B7F10000000011 /* SSEClient.swift */; };
+		AA01001229B7F10000000012 /* BiometricAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01001229B7F10000000012 /* BiometricAuthService.swift */; };
+		AA01001329B7F10000000013 /* HapticService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01001329B7F10000000013 /* HapticService.swift */; };
+		AA01001429B7F10000000014 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01001429B7F10000000014 /* NotificationService.swift */; };
+		AA01001529B7F10000000015 /* GuardianViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01001529B7F10000000015 /* GuardianViewModel.swift */; };
+		AA01001629B7F10000000016 /* ScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01001629B7F10000000016 /* ScreenViewModel.swift */; };
+		AA01001729B7F10000000017 /* ScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01001729B7F10000000017 /* ScheduleViewModel.swift */; };
+		AA01001829B7F10000000018 /* LogsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01001829B7F10000000018 /* LogsViewModel.swift */; };
+		AA01001929B7F10000000019 /* PinAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01001929B7F10000000019 /* PinAuthView.swift */; };
+		AA01002029B7F10000000020 /* ServerSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002029B7F10000000020 /* ServerSetupView.swift */; };
+		AA01002129B7F10000000021 /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002129B7F10000000021 /* QRCodeScannerView.swift */; };
+		AA01002229B7F10000000022 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002229B7F10000000022 /* DashboardView.swift */; };
+		AA01002329B7F10000000023 /* LockControlCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002329B7F10000000023 /* LockControlCard.swift */; };
+		AA01002429B7F10000000024 /* TimeUsageRingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002429B7F10000000024 /* TimeUsageRingCard.swift */; };
+		AA01002529B7F10000000025 /* QuickActionGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002529B7F10000000025 /* QuickActionGrid.swift */; };
+		AA01002629B7F10000000026 /* TimeRequestAlertBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002629B7F10000000026 /* TimeRequestAlertBanner.swift */; };
+		AA01002729B7F10000000027 /* ScheduledLockSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002729B7F10000000027 /* ScheduledLockSheet.swift */; };
+		AA01002829B7F10000000028 /* LiveScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002829B7F10000000028 /* LiveScreenView.swift */; };
+		AA01002929B7F10000000029 /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002929B7F10000000029 /* MessagesView.swift */; };
+		AA01003029B7F10000000030 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01003029B7F10000000030 /* RulesView.swift */; };
+		AA01003129B7F10000000031 /* RunningAppsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01003129B7F10000000031 /* RunningAppsSheet.swift */; };
+		AA01003229B7F10000000032 /* BlockedAppsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01003229B7F10000000032 /* BlockedAppsView.swift */; };
+		AA01003329B7F10000000033 /* BlockedWebsitesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01003329B7F10000000033 /* BlockedWebsitesView.swift */; };
+		AA01003429B7F10000000034 /* WeeklyScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01003429B7F10000000034 /* WeeklyScheduleView.swift */; };
+		AA01003529B7F10000000035 /* LogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01003529B7F10000000035 /* LogsView.swift */; };
+		AA01003629B7F10000000036 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01003629B7F10000000036 /* SettingsView.swift */; };
+		AA01003729B7F10000000037 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01003729B7F10000000037 /* MainTabView.swift */; };
+		AA01003829B7F10000000038 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB01003829B7F10000000038 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0001000029B7F10000000001 /* OpiekunIOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpiekunIOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BB01000129B7F10000000001 /* OpiekunIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpiekunIOSApp.swift; sourceTree = "<group>"; };
+		BB01000229B7F10000000002 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		BB01000329B7F10000000003 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		BB01000429B7F10000000004 /* GuardianStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuardianStatus.swift; sourceTree = "<group>"; };
+		BB01000529B7F10000000005 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		BB01000629B7F10000000006 /* TimeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeRequest.swift; sourceTree = "<group>"; };
+		BB01000729B7F10000000007 /* RunningApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningApp.swift; sourceTree = "<group>"; };
+		BB01000829B7F10000000008 /* LogEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogEntry.swift; sourceTree = "<group>"; };
+		BB01000929B7F10000000009 /* ConnectionProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionProfile.swift; sourceTree = "<group>"; };
+		BB01001029B7F10000000010 /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
+		BB01001129B7F10000000011 /* SSEClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSEClient.swift; sourceTree = "<group>"; };
+		BB01001229B7F10000000012 /* BiometricAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiometricAuthService.swift; sourceTree = "<group>"; };
+		BB01001329B7F10000000013 /* HapticService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticService.swift; sourceTree = "<group>"; };
+		BB01001429B7F10000000014 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		BB01001529B7F10000000015 /* GuardianViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuardianViewModel.swift; sourceTree = "<group>"; };
+		BB01001629B7F10000000016 /* ScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenViewModel.swift; sourceTree = "<group>"; };
+		BB01001729B7F10000000017 /* ScheduleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewModel.swift; sourceTree = "<group>"; };
+		BB01001829B7F10000000018 /* LogsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsViewModel.swift; sourceTree = "<group>"; };
+		BB01001929B7F10000000019 /* PinAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinAuthView.swift; sourceTree = "<group>"; };
+		BB01002029B7F10000000020 /* ServerSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerSetupView.swift; sourceTree = "<group>"; };
+		BB01002129B7F10000000021 /* QRCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerView.swift; sourceTree = "<group>"; };
+		BB01002229B7F10000000022 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		BB01002329B7F10000000023 /* LockControlCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockControlCard.swift; sourceTree = "<group>"; };
+		BB01002429B7F10000000024 /* TimeUsageRingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeUsageRingCard.swift; sourceTree = "<group>"; };
+		BB01002529B7F10000000025 /* QuickActionGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickActionGrid.swift; sourceTree = "<group>"; };
+		BB01002629B7F10000000026 /* TimeRequestAlertBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeRequestAlertBanner.swift; sourceTree = "<group>"; };
+		BB01002729B7F10000000027 /* ScheduledLockSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduledLockSheet.swift; sourceTree = "<group>"; };
+		BB01002829B7F10000000028 /* LiveScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveScreenView.swift; sourceTree = "<group>"; };
+		BB01002929B7F10000000029 /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
+		BB01003029B7F10000000030 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesView.swift; sourceTree = "<group>"; };
+		BB01003129B7F10000000031 /* RunningAppsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunningAppsSheet.swift; sourceTree = "<group>"; };
+		BB01003229B7F10000000032 /* BlockedAppsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedAppsView.swift; sourceTree = "<group>"; };
+		BB01003329B7F10000000033 /* BlockedWebsitesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockedWebsitesView.swift; sourceTree = "<group>"; };
+		BB01003429B7F10000000034 /* WeeklyScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyScheduleView.swift; sourceTree = "<group>"; };
+		BB01003529B7F10000000035 /* LogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsView.swift; sourceTree = "<group>"; };
+		BB01003629B7F10000000036 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		BB01003729B7F10000000037 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		BB01003829B7F10000000038 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BB01003929B7F10000000039 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CC01000029B7F10000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DD01000029B7F10000000001 = {
+			isa = PBXGroup;
+			children = (
+				DD01000129B7F10000000002 /* OpiekunIOS */,
+				DD01000229B7F10000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DD01000129B7F10000000002 /* OpiekunIOS */ = {
+			isa = PBXGroup;
+			children = (
+				DD01000329B7F10000000004 /* App */,
+				DD01000429B7F10000000005 /* Theme */,
+				DD01000529B7F10000000006 /* Models */,
+				DD01000629B7F10000000007 /* Services */,
+				DD01000729B7F10000000008 /* ViewModels */,
+				DD01000829B7F10000000009 /* Views */,
+				DD01000929B7F10000000010 /* Resources */,
+			);
+			path = OpiekunIOS;
+			sourceTree = "<group>";
+		};
+		DD01000229B7F10000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0001000029B7F10000000001 /* OpiekunIOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DD01000329B7F10000000004 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				BB01000129B7F10000000001 /* OpiekunIOSApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		DD01000429B7F10000000005 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				BB01000229B7F10000000002 /* Colors.swift */,
+				BB01000329B7F10000000003 /* ViewModifiers.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		DD01000529B7F10000000006 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BB01000429B7F10000000004 /* GuardianStatus.swift */,
+				BB01000529B7F10000000005 /* AppSettings.swift */,
+				BB01000629B7F10000000006 /* TimeRequest.swift */,
+				BB01000729B7F10000000007 /* RunningApp.swift */,
+				BB01000829B7F10000000008 /* LogEntry.swift */,
+				BB01000929B7F10000000009 /* ConnectionProfile.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DD01000629B7F10000000007 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				BB01001029B7F10000000010 /* APIService.swift */,
+				BB01001129B7F10000000011 /* SSEClient.swift */,
+				BB01001229B7F10000000012 /* BiometricAuthService.swift */,
+				BB01001329B7F10000000013 /* HapticService.swift */,
+				BB01001429B7F10000000014 /* NotificationService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		DD01000729B7F10000000008 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				BB01001529B7F10000000015 /* GuardianViewModel.swift */,
+				BB01001629B7F10000000016 /* ScreenViewModel.swift */,
+				BB01001729B7F10000000017 /* ScheduleViewModel.swift */,
+				BB01001829B7F10000000018 /* LogsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		DD01000829B7F10000000009 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BB01001929B7F10000000019 /* PinAuthView.swift */,
+				BB01002029B7F10000000020 /* ServerSetupView.swift */,
+				BB01002129B7F10000000021 /* QRCodeScannerView.swift */,
+				BB01002229B7F10000000022 /* DashboardView.swift */,
+				BB01002329B7F10000000023 /* LockControlCard.swift */,
+				BB01002429B7F10000000024 /* TimeUsageRingCard.swift */,
+				BB01002529B7F10000000025 /* QuickActionGrid.swift */,
+				BB01002629B7F10000000026 /* TimeRequestAlertBanner.swift */,
+				BB01002729B7F10000000027 /* ScheduledLockSheet.swift */,
+				BB01002829B7F10000000028 /* LiveScreenView.swift */,
+				BB01002929B7F10000000029 /* MessagesView.swift */,
+				BB01003029B7F10000000030 /* RulesView.swift */,
+				BB01003129B7F10000000031 /* RunningAppsSheet.swift */,
+				BB01003229B7F10000000032 /* BlockedAppsView.swift */,
+				BB01003329B7F10000000033 /* BlockedWebsitesView.swift */,
+				BB01003429B7F10000000034 /* WeeklyScheduleView.swift */,
+				BB01003529B7F10000000035 /* LogsView.swift */,
+				BB01003629B7F10000000036 /* SettingsView.swift */,
+				BB01003729B7F10000000037 /* MainTabView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DD01000929B7F10000000010 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BB01003829B7F10000000038 /* Assets.xcassets */,
+				BB01003929B7F10000000039 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EE01000029B7F10000000001 /* OpiekunIOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF01000129B7F10000000002 /* Build configuration list for PBXNativeTarget "OpiekunIOS" */;
+			buildPhases = (
+				CC01000129B7F10000000002 /* Sources */,
+				CC01000029B7F10000000001 /* Frameworks */,
+				CC01000229B7F10000000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpiekunIOS;
+			productName = OpiekunIOS;
+			productReference = 0001000029B7F10000000001 /* OpiekunIOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FF01000029B7F10000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					EE01000029B7F10000000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = FF01000229B7F10000000003 /* Build configuration list for PBXProject "OpiekunIOS" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = pl;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				pl,
+				Base,
+			);
+			mainGroup = DD01000029B7F10000000001;
+			productRefGroup = DD01000229B7F10000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EE01000029B7F10000000001 /* OpiekunIOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CC01000229B7F10000000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA01003829B7F10000000038 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CC01000129B7F10000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA01000129B7F10000000001 /* OpiekunIOSApp.swift in Sources */,
+				AA01000229B7F10000000002 /* Colors.swift in Sources */,
+				AA01000329B7F10000000003 /* ViewModifiers.swift in Sources */,
+				AA01000429B7F10000000004 /* GuardianStatus.swift in Sources */,
+				AA01000529B7F10000000005 /* AppSettings.swift in Sources */,
+				AA01000629B7F10000000006 /* TimeRequest.swift in Sources */,
+				AA01000729B7F10000000007 /* RunningApp.swift in Sources */,
+				AA01000829B7F10000000008 /* LogEntry.swift in Sources */,
+				AA01000929B7F10000000009 /* ConnectionProfile.swift in Sources */,
+				AA01001029B7F10000000010 /* APIService.swift in Sources */,
+				AA01001129B7F10000000011 /* SSEClient.swift in Sources */,
+				AA01001229B7F10000000012 /* BiometricAuthService.swift in Sources */,
+				AA01001329B7F10000000013 /* HapticService.swift in Sources */,
+				AA01001429B7F10000000014 /* NotificationService.swift in Sources */,
+				AA01001529B7F10000000015 /* GuardianViewModel.swift in Sources */,
+				AA01001629B7F10000000016 /* ScreenViewModel.swift in Sources */,
+				AA01001729B7F10000000017 /* ScheduleViewModel.swift in Sources */,
+				AA01001829B7F10000000018 /* LogsViewModel.swift in Sources */,
+				AA01001929B7F10000000019 /* PinAuthView.swift in Sources */,
+				AA01002029B7F10000000020 /* ServerSetupView.swift in Sources */,
+				AA01002129B7F10000000021 /* QRCodeScannerView.swift in Sources */,
+				AA01002229B7F10000000022 /* DashboardView.swift in Sources */,
+				AA01002329B7F10000000023 /* LockControlCard.swift in Sources */,
+				AA01002429B7F10000000024 /* TimeUsageRingCard.swift in Sources */,
+				AA01002529B7F10000000025 /* QuickActionGrid.swift in Sources */,
+				AA01002629B7F10000000026 /* TimeRequestAlertBanner.swift in Sources */,
+				AA01002729B7F10000000027 /* ScheduledLockSheet.swift in Sources */,
+				AA01002829B7F10000000028 /* LiveScreenView.swift in Sources */,
+				AA01002929B7F10000000029 /* MessagesView.swift in Sources */,
+				AA01003029B7F10000000030 /* RulesView.swift in Sources */,
+				AA01003129B7F10000000031 /* RunningAppsSheet.swift in Sources */,
+				AA01003229B7F10000000032 /* BlockedAppsView.swift in Sources */,
+				AA01003329B7F10000000033 /* BlockedWebsitesView.swift in Sources */,
+				AA01003429B7F10000000034 /* WeeklyScheduleView.swift in Sources */,
+				AA01003529B7F10000000035 /* LogsView.swift in Sources */,
+				AA01003629B7F10000000036 /* SettingsView.swift in Sources */,
+				AA01003729B7F10000000037 /* MainTabView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		GG01000129B7F10000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		GG01000229B7F10000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		GG01000329B7F10000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = OpiekunIOS/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.opiekun.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		GG01000429B7F10000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = OpiekunIOS/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.opiekun.ios;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FF01000129B7F10000000002 /* Build configuration list for PBXNativeTarget "OpiekunIOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				GG01000329B7F10000000003 /* Debug */,
+				GG01000429B7F10000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF01000229B7F10000000003 /* Build configuration list for PBXProject "OpiekunIOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				GG01000129B7F10000000001 /* Debug */,
+				GG01000229B7F10000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = FF01000029B7F10000000001 /* Project object */;
+}
+
