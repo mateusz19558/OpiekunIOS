@@ -7,15 +7,15 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: macos-13
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Select Xcode Version
-        run: sudo xcode-select -s /Applications/Xcode_15.4.app/Contents/Developer
+      - name: Show Xcode Version
+        run: xcodebuild -version
 
-      - name: Build Project without Code Signing (Generic iOS Device)
+      - name: Build Project without Code Signing
         run: |
           xcodebuild clean build \
             -project OpiekunIOS.xcodeproj \
