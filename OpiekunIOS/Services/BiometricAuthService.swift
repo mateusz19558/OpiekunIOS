@@ -21,8 +21,6 @@ public final class BiometricAuthService {
             return "Face ID"
         case .touchID:
             return "Touch ID"
-        case .opticID:
-            return "Optic ID"
         default:
             return "Biometria"
         }

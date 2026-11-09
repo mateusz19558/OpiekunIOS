@@ -34,7 +34,6 @@
 		AA01002529B7F10000000025 /* QuickActionGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002529B7F10000000025 /* QuickActionGrid.swift */; };
 		AA01002629B7F10000000026 /* TimeRequestAlertBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002629B7F10000000026 /* TimeRequestAlertBanner.swift */; };
 		AA01002729B7F10000000027 /* ScheduledLockSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002729B7F10000000027 /* ScheduledLockSheet.swift */; };
-		AA01003829B7F10000000038 /* RemoteModeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01003829B7F10000000038 /* RemoteModeCard.swift */; };
 		AA01002829B7F10000000028 /* LiveScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002829B7F10000000028 /* LiveScreenView.swift */; };
 		AA01002929B7F10000000029 /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01002929B7F10000000029 /* MessagesView.swift */; };
 		AA01003029B7F10000000030 /* RulesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB01003029B7F10000000030 /* RulesView.swift */; };
@@ -77,7 +76,6 @@
 		BB01002529B7F10000000025 /* QuickActionGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dashboard/QuickActionGrid.swift"; sourceTree = "<group>"; };
 		BB01002629B7F10000000026 /* TimeRequestAlertBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dashboard/TimeRequestAlertBanner.swift"; sourceTree = "<group>"; };
 		BB01002729B7F10000000027 /* ScheduledLockSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dashboard/ScheduledLockSheet.swift"; sourceTree = "<group>"; };
-		BB01003829B7F10000000038 /* RemoteModeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dashboard/RemoteModeCard.swift"; sourceTree = "<group>"; };
 		BB01002829B7F10000000028 /* LiveScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Screen/LiveScreenView.swift"; sourceTree = "<group>"; };
 		BB01002929B7F10000000029 /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Messages/MessagesView.swift"; sourceTree = "<group>"; };
 		BB01003029B7F10000000030 /* RulesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rules/RulesView.swift"; sourceTree = "<group>"; };
@@ -198,7 +196,6 @@
 				BB01002529B7F10000000025 /* QuickActionGrid.swift */,
 				BB01002629B7F10000000026 /* TimeRequestAlertBanner.swift */,
 				BB01002729B7F10000000027 /* ScheduledLockSheet.swift */,
-				BB01003829B7F10000000038 /* RemoteModeCard.swift */,
 				BB01002829B7F10000000028 /* LiveScreenView.swift */,
 				BB01002929B7F10000000029 /* MessagesView.swift */,
 				BB01003029B7F10000000030 /* RulesView.swift */,
@@ -318,7 +315,6 @@
 				AA01002529B7F10000000025 /* QuickActionGrid.swift in Sources */,
 				AA01002629B7F10000000026 /* TimeRequestAlertBanner.swift in Sources */,
 				AA01002729B7F10000000027 /* ScheduledLockSheet.swift in Sources */,
-				AA01003829B7F10000000038 /* RemoteModeCard.swift in Sources */,
 				AA01002829B7F10000000028 /* LiveScreenView.swift in Sources */,
 				AA01002929B7F10000000029 /* MessagesView.swift in Sources */,
 				AA01003029B7F10000000030 /* RulesView.swift in Sources */,
