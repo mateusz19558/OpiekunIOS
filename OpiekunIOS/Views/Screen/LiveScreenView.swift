@@ -91,7 +91,7 @@ public struct LiveScreenView: View {
                                 .fill(AppColors.cardBackground)
                                 .overlay(RoundedRectangle(cornerRadius: 16).stroke(AppColors.cardBorder, lineWidth: 1))
 
-                            if screenVM.image != nil {
+                            if let img = screenVM.image {
                                 Image(uiImage: img)
                                     .resizable()
                                     .scaledToFit()
