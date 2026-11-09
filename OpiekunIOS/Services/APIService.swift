@@ -329,5 +329,44 @@ public final class APIService {
             throw APIError.serverError((response as? HTTPURLResponse)?.statusCode ?? -1)
         }
     }
+
+    // MARK: - Remote Desktop Control (Mouse, Keyboard & Fast Screen)
+    public func fetchRemoteScreen(quality: Int = 55, profile: ConnectionProfile) async throws -> UIImage {
+        let req = try makeRequest(endpoint: "/api/remote/screen?q=\(quality)", profile: profile)
+        let (data, response) = try await session.data(for: req)
+        guard let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) else {
+            throw APIError.serverError((response as? HTTPURLResponse)?.statusCode ?? -1)
+        }
+        guard let image = UIImage(data: data) else {
+            throw APIError.custom("Nie udało się zdekodować obrazu")
+        }
+        return image
+    }
+
+    public func sendRemoteMouse(x: Double, y: Double, action: String = "click", scroll: Int = 0, profile: ConnectionProfile) async throws {
+        let body = try JSONSerialization.data(withJSONObject: [
+            "x": x,
+            "y": y,
+            "action": action,
+            "scroll": scroll
+        ])
+        let req = try makeRequest(endpoint: "/api/remote/mouse", method: "POST", profile: profile, body: body)
+        let (_, response) = try await session.data(for: req)
+        guard let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) else {
+            throw APIError.serverError((response as? HTTPURLResponse)?.statusCode ?? -1)
+        }
+    }
+
+    public func sendRemoteKeyboard(text: String? = nil, key: String? = nil, profile: ConnectionProfile) async throws {
+        var dict: [String: Any] = [:]
+        if let text = text, !text.isEmpty { dict["text"] = text }
+        if let key = key, !key.isEmpty { dict["key"] = key }
+        let body = try JSONSerialization.data(withJSONObject: dict)
+        let req = try makeRequest(endpoint: "/api/remote/keyboard", method: "POST", profile: profile, body: body)
+        let (_, response) = try await session.data(for: req)
+        guard let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) else {
+            throw APIError.serverError((response as? HTTPURLResponse)?.statusCode ?? -1)
+        }
+    }
 }
 

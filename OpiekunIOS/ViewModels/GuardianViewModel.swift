@@ -205,6 +205,18 @@ public final class GuardianViewModel: ObservableObject {
         }
     }
 
+    public func sendRemoteMouse(x: Double, y: Double, action: String = "click", scroll: Int = 0) async {
+        do {
+            try await APIService.shared.sendRemoteMouse(x: x, y: y, action: action, scroll: scroll, profile: profile)
+        } catch { }
+    }
+
+    public func sendRemoteKeyboard(text: String? = nil, key: String? = nil) async {
+        do {
+            try await APIService.shared.sendRemoteKeyboard(text: text, key: key, profile: profile)
+        } catch { }
+    }
+
     public func toggleLock() async {
         HapticService.shared.impact(.heavy)
         let targetState = !status.isLocked

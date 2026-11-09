@@ -174,6 +174,7 @@ public struct DashboardView: View {
 // MARK: - Remote Mode Card (Tryb Zdalny)
 public struct RemoteModeCard: View {
     @ObservedObject var viewModel: GuardianViewModel
+    @State private var showRemoteDesktop: Bool = false
 
     private var isRemoteActive: Bool {
         viewModel.status.isRemoteModeActive ?? false
@@ -309,6 +310,26 @@ public struct RemoteModeCard: View {
                                 .stroke((isInputBlocked ? AppColors.accentRed : AppColors.accentGreen).opacity(0.3), lineWidth: 1)
                         )
                     }
+
+                    // Button to launch live screen streaming & remote mouse/keyboard control
+                    Button {
+                        showRemoteDesktop = true
+                    } label: {
+                        HStack(spacing: 8) {
+                            Image(systemName: "display.and.cursorarrow")
+                                .font(.system(size: 15, weight: .bold))
+                            Text("Otwórz Zdalny Pulpit i Sterowanie")
+                                .font(.system(size: 14, weight: .bold))
+                        }
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(
+                            LinearGradient(colors: [Color(hex: 0x0891b2), Color(hex: 0x06b6d4)], startPoint: .leading, endPoint: .trailing)
+                        )
+                        .cornerRadius(12)
+                        .shadow(color: Color(hex: 0x06b6d4).opacity(0.35), radius: 6, y: 3)
+                    }
                 }
                 .transition(.opacity.combined(with: .move(edge: .top)))
             }
@@ -316,6 +337,284 @@ public struct RemoteModeCard: View {
         .modernCard()
         .animation(.easeInOut(duration: 0.25), value: isRemoteActive)
         .animation(.easeInOut(duration: 0.2), value: isInputBlocked)
+        .fullScreenCover(isPresented: $showRemoteDesktop) {
+            RemoteDesktopView(viewModel: viewModel)
+        }
+    }
+}
+
+// MARK: - Remote Desktop Interactive Screen & Control View
+public struct RemoteDesktopView: View {
+    @ObservedObject var viewModel: GuardianViewModel
+    @Environment(\.dismiss) private var dismiss
+
+    @State private var currentImage: UIImage?
+    @State private var isStreaming: Bool = false
+    @State private var streamTask: Task<Void, Never>?
+
+    // Mouse & Click states
+    @State private var selectedMouseAction: String = "click"
+    @State private var tapRippleLocation: CGPoint?
+    @State private var showRipple: Bool = false
+
+    // Keyboard bar
+    @State private var showKeyboardBar: Bool = false
+    @State private var inputText: String = ""
+
+    public var body: some View {
+        ZStack {
+            Color.black.ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                // Top Navigation & Status Bar
+                HStack {
+                    HStack(spacing: 8) {
+                        Circle()
+                            .fill(Color(hex: 0x22c55e))
+                            .frame(width: 8, height: 8)
+                        Text("ZDALNY PULPIT PC")
+                            .font(.system(size: 13, weight: .black))
+                            .foregroundColor(.white)
+
+                        if viewModel.status.blockRemoteInput == true {
+                            Text("MYSZ DZIECKA: BLOK")
+                                .font(.system(size: 9, weight: .bold))
+                                .foregroundColor(AppColors.accentRed)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(AppColors.accentRed.opacity(0.2))
+                                .cornerRadius(4)
+                        }
+                    }
+
+                    Spacer()
+
+                    Button {
+                        stopStreaming()
+                        dismiss()
+                    } label: {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 24))
+                            .foregroundColor(Color.white.opacity(0.8))
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .background(Color(hex: 0x111827))
+
+                // Interactive Screen Canvas
+                GeometryReader { geo in
+                    ZStack {
+                        Color.black
+
+                        if let img = currentImage {
+                            Image(uiImage: img)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .overlay(
+                                    GeometryReader { imgGeo in
+                                        Color.clear
+                                            .contentShape(Rectangle())
+                                            .gesture(
+                                                DragGesture(minimumDistance: 0)
+                                                    .onEnded { value in
+                                                        handleScreenTap(at: value.location, in: imgGeo.size)
+                                                    }
+                                            )
+                                    }
+                                )
+                        } else {
+                            VStack(spacing: 12) {
+                                ProgressView().tint(.white).scaleEffect(1.3)
+                                Text("Łączenie z ekranem PC...")
+                                    .font(.system(size: 13, weight: .medium))
+                                    .foregroundColor(.white.opacity(0.7))
+                            }
+                        }
+
+                        // Tap Ripple Effect
+                        if showRipple, let ripple = tapRippleLocation {
+                            Circle()
+                                .stroke(Color(hex: 0x38bdf8), lineWidth: 2)
+                                .frame(width: 32, height: 32)
+                                .position(ripple)
+                                .transition(.scale.combined(with: .opacity))
+                        }
+                    }
+                }
+
+                // Keyboard Input Drawer (if open)
+                if showKeyboardBar {
+                    HStack(spacing: 8) {
+                        TextField("Wpisz tekst do wysłania na PC...", text: $inputText)
+                            .textFieldStyle(.plain)
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(Color(hex: 0x1f2937))
+                            .cornerRadius(8)
+
+                        Button {
+                            guard !inputText.isEmpty else { return }
+                            let textToSend = inputText
+                            inputText = ""
+                            Task {
+                                await viewModel.sendRemoteKeyboard(text: textToSend)
+                            }
+                        } label: {
+                            Text("Wyślij")
+                                .font(.system(size: 13, weight: .bold))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 14)
+                                .padding(.vertical, 8)
+                                .background(Color(hex: 0x0284c7))
+                                .cornerRadius(8)
+                        }
+                    }
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(Color(hex: 0x111827))
+                }
+
+                // Control Toolbar
+                VStack(spacing: 6) {
+                    // Quick special keys row
+                    HStack(spacing: 8) {
+                        toolbarKeyButton(title: "Enter ↵") {
+                            Task { await viewModel.sendRemoteKeyboard(key: "enter") }
+                        }
+                        toolbarKeyButton(title: "⌫ Kasuj") {
+                            Task { await viewModel.sendRemoteKeyboard(key: "backspace") }
+                        }
+                        toolbarKeyButton(title: "Esc") {
+                            Task { await viewModel.sendRemoteKeyboard(key: "esc") }
+                        }
+                        toolbarKeyButton(title: "Tab ⇥") {
+                            Task { await viewModel.sendRemoteKeyboard(key: "tab") }
+                        }
+                        toolbarKeyButton(title: "🪟 Pulpit") {
+                            Task { await viewModel.sendRemoteKeyboard(key: "win_d") }
+                        }
+                    }
+
+                    // Mouse actions row
+                    HStack(spacing: 10) {
+                        mouseActionButton(title: "LPM", icon: "cursorarrow.click", action: "click")
+                        mouseActionButton(title: "PPM (Prawy)", icon: "cursorarrow.click.badge.shapes", action: "right_click")
+                        mouseActionButton(title: "2x Klik", icon: "cursorarrow.rays", action: "double_click")
+
+                        Spacer()
+
+                        Button {
+                            withAnimation(.easeInOut(duration: 0.2)) {
+                                showKeyboardBar.toggle()
+                            }
+                        } label: {
+                            HStack(spacing: 4) {
+                                Image(systemName: showKeyboardBar ? "keyboard.chevron.compact.down" : "keyboard")
+                                Text(showKeyboardBar ? "Schowaj" : "Klawiatura")
+                            }
+                            .font(.system(size: 12, weight: .bold))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(showKeyboardBar ? Color(hex: 0x0284c7) : Color(hex: 0x374151))
+                            .cornerRadius(8)
+                        }
+                    }
+                }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+                .background(Color(hex: 0x111827))
+            }
+        }
+        .onAppear {
+            startStreaming()
+        }
+        .onDisappear {
+            stopStreaming()
+        }
+    }
+
+    private func handleScreenTap(at location: CGPoint, in size: CGSize) {
+        guard size.width > 0 && size.height > 0 else { return }
+
+        tapRippleLocation = location
+        withAnimation(.easeOut(duration: 0.3)) {
+            showRipple = true
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+            showRipple = false
+        }
+
+        let normX = min(max(Double(location.x / size.width), 0.0), 1.0)
+        let normY = min(max(Double(location.y / size.height), 0.0), 1.0)
+
+        let action = selectedMouseAction
+        HapticService.shared.impact(.light)
+
+        Task {
+            await viewModel.sendRemoteMouse(x: normX, y: normY, action: action)
+        }
+
+        // Reset to default click after special right/double click
+        if selectedMouseAction != "click" {
+            selectedMouseAction = "click"
+        }
+    }
+
+    private func mouseActionButton(title: String, icon: String, action: String) -> some View {
+        Button {
+            selectedMouseAction = action
+            HapticService.shared.selection()
+        } label: {
+            HStack(spacing: 4) {
+                Image(systemName: icon)
+                Text(title)
+            }
+            .font(.system(size: 11, weight: .bold))
+            .foregroundColor(selectedMouseAction == action ? .white : Color(hex: 0x9ca3af))
+            .padding(.horizontal, 10)
+            .padding(.vertical, 7)
+            .background(selectedMouseAction == action ? Color(hex: 0x0284c7) : Color(hex: 0x1f2937))
+            .cornerRadius(8)
+        }
+    }
+
+    private func toolbarKeyButton(title: String, action: @escaping () -> Void) -> some View {
+        Button {
+            HapticService.shared.impact(.light)
+            action()
+        } label: {
+            Text(title)
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 6)
+                .background(Color(hex: 0x1f2937))
+                .cornerRadius(6)
+        }
+    }
+
+    private func startStreaming() {
+        isStreaming = true
+        streamTask = Task {
+            while !Task.isCancelled && isStreaming {
+                if let img = try? await APIService.shared.fetchRemoteScreen(quality: 50, profile: viewModel.profile) {
+                    await MainActor.run {
+                        self.currentImage = img
+                    }
+                }
+                try? await Task.sleep(nanoseconds: 700_000_000)
+            }
+        }
+    }
+
+    private func stopStreaming() {
+        isStreaming = false
+        streamTask?.cancel()
+        streamTask = nil
     }
 }
 
