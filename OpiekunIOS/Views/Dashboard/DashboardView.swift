@@ -95,7 +95,7 @@ public struct DashboardView: View {
             .navigationTitle("Pulpit Opiekuna")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .navigationBarLeading) {
                     HStack(spacing: 6) {
                         Text("🛡️")
                         Text(viewModel.profile.name)
@@ -103,7 +103,7 @@ public struct DashboardView: View {
                             .foregroundColor(.white)
                     }
                 }
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         HapticService.shared.selection()
                         Task { await viewModel.refreshStatus() }

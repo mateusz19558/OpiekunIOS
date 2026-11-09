@@ -95,7 +95,7 @@ public struct LogsView: View {
             .navigationTitle("Dziennik Zdarzeń")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         Task { await logsVM.loadLogs(profile: viewModel.profile) }
                     } label: {

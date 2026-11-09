@@ -1,4 +1,14 @@
 import SwiftUI
+import UIKit
+import Photos
+
+public struct ShareSheet: UIViewControllerRepresentable {
+    public var items: [Any]
+    public func makeUIViewController(context: Context) -> UIActivityViewController {
+        UIActivityViewController(activityItems: items, applicationActivities: nil)
+    }
+    public func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
+}
 
 public struct LiveScreenView: View {
     @ObservedObject var viewModel: GuardianViewModel
@@ -9,6 +19,7 @@ public struct LiveScreenView: View {
     @State private var isFullscreen: Bool = false
     @State private var showSaveAlert: Bool = false
     @State private var saveAlertMessage: String = ""
+    @State private var showShareSheet: Bool = false
 
     public var body: some View {
         NavigationStack {
@@ -179,10 +190,9 @@ public struct LiveScreenView: View {
                                     .overlay(RoundedRectangle(cornerRadius: 12).stroke(AppColors.cardBorder, lineWidth: 1))
                                 }
 
-                                ShareLink(
-                                    item: Image(uiImage: img),
-                                    preview: SharePreview("Zrzut ekranu dziecka", image: Image(uiImage: img))
-                                ) {
+                                Button {
+                                    showShareSheet = true
+                                } label: {
                                     HStack {
                                         Image(systemName: "square.and.arrow.up")
                                         Text("Udostępnij")
@@ -204,6 +214,11 @@ public struct LiveScreenView: View {
             }
             .navigationTitle("Podgląd Ekranu HD")
             .navigationBarTitleDisplayMode(.inline)
+            .sheet(isPresented: $showShareSheet) {
+                if let img = screenVM.image {
+                    ShareSheet(items: [img])
+                }
+            }
             .alert("Zapisano", isPresented: $showSaveAlert) {
                 Button("OK") {}
             } message: {
@@ -222,4 +237,3 @@ public struct LiveScreenView: View {
         }
     }
 }
-
