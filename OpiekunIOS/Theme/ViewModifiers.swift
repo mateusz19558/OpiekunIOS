@@ -57,7 +57,7 @@ struct GlowingButtonStyle: ButtonStyle {
                     .opacity(isEnabled ? (configuration.isPressed ? 0.8 : 1.0) : 0.4)
             )
             .clipShape(RoundedRectangle(cornerRadius: 14))
-            .shadow(color: gradient.stops.first?.color.opacity(configuration.isPressed ? 0.2 : 0.45) ?? .clear, radius: 10, y: 4)
+            .shadow(color: Color.black.opacity(configuration.isPressed ? 0.2 : 0.45), radius: 10, y: 4)
             .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
             .animation(.spring(response: 0.25, dampingFraction: 0.7), value: configuration.isPressed)
     }
