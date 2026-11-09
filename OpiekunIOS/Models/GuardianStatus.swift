@@ -2,6 +2,7 @@ import Foundation
 
 public struct GuardianStatus: Codable, Equatable {
     public var isLocked: Bool
+    public var isDesktopLockedOrSleeping: Bool?
     public var lockReason: String
     public var currentActiveUser: String
     public var targetUserName: String

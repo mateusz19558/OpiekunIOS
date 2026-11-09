@@ -30,6 +30,35 @@ public struct DashboardView: View {
 
                             Spacer()
 
+                            // Connection Mode Switcher (Wi-Fi Dom / LTE Zdalnie)
+                            Menu {
+                                ForEach(ConnectionMode.allCases, id: \.self) { m in
+                                    Button {
+                                        viewModel.switchConnectionMode(m)
+                                    } label: {
+                                        HStack {
+                                            Text(m.rawValue)
+                                            if viewModel.profile.mode == m {
+                                                Image(systemName: "checkmark")
+                                            }
+                                        }
+                                    }
+                                }
+                            } label: {
+                                HStack(spacing: 5) {
+                                    Image(systemName: viewModel.profile.isCurrentlyUsingRemote ? "globe" : "house.fill")
+                                        .font(.system(size: 11))
+                                    Text(viewModel.profile.isCurrentlyUsingRemote ? "Poza domem" : "Dom (Wi-Fi)")
+                                        .font(.system(size: 11, weight: .bold))
+                                }
+                                .foregroundColor(viewModel.profile.isCurrentlyUsingRemote ? AppColors.accentCyan : AppColors.accentBlue)
+                                .padding(.horizontal, 9)
+                                .padding(.vertical, 4)
+                                .background(AppColors.cardBackground)
+                                .clipShape(Capsule())
+                                .overlay(Capsule().stroke(AppColors.cardBorder, lineWidth: 1))
+                            }
+
                             // Active Windows user badge
                             HStack(spacing: 4) {
                                 Image(systemName: "person.crop.circle.fill")
@@ -45,6 +74,27 @@ public struct DashboardView: View {
                             .overlay(Capsule().stroke(AppColors.cardBorder, lineWidth: 1))
                         }
                         .padding(.horizontal, 4)
+
+                        // Sleep / Login Screen notification banner
+                        if viewModel.status.isDesktopLockedOrSleeping == true {
+                            HStack(spacing: 8) {
+                                Text("💤")
+                                    .font(.system(size: 16))
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("KOMPUTER UŚPIONY LUB EKRAN LOGOWANIA")
+                                        .font(.system(size: 10, weight: .black))
+                                        .foregroundColor(AppColors.accentBlue)
+                                    Text("Czas dziecka jest wstrzymany. Odliczanie ruszy dopiero po zalogowaniu na pulpit.")
+                                        .font(.system(size: 11, weight: .medium))
+                                        .foregroundColor(.white)
+                                }
+                                Spacer()
+                            }
+                            .padding(10)
+                            .background(Color(hex: 0x1e3a8a).opacity(0.35))
+                            .cornerRadius(12)
+                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(AppColors.accentBlue.opacity(0.4), lineWidth: 1))
+                        }
 
                         // Pending Time Requests Banners
                         ForEach(viewModel.status.pendingTimeRequests.filter { $0.isPending }) { req in

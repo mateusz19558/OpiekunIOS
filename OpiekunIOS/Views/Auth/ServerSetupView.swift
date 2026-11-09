@@ -8,6 +8,8 @@ public struct ServerSetupView: View {
     @State private var profileName: String = ""
     @State private var host: String = ""
     @State private var port: String = "5050"
+    @State private var remoteURL: String = ""
+    @State private var mode: ConnectionMode = .auto
     @State private var pin: String = "1234"
     @State private var useHttps: Bool = false
     @State private var showingScanner: Bool = false
@@ -53,28 +55,75 @@ public struct ServerSetupView: View {
                             .modernCard()
                         }
 
-                        // Form settings
-                        VStack(alignment: .leading, spacing: 14) {
-                            Text("Parametry połączenia")
-                                .font(.system(size: 13, weight: .bold))
+                        // Tryb połączenia
+                        VStack(alignment: .leading, spacing: 10) {
+                            Text("TRYB POŁĄCZENIA")
+                                .font(.system(size: 11, weight: .bold))
                                 .foregroundColor(AppColors.textMuted)
-                                .textCase(.uppercase)
+
+                            Picker("Tryb", selection: $mode) {
+                                ForEach(ConnectionMode.allCases, id: \.self) { m in
+                                    Text(m.rawValue).tag(m)
+                                }
+                            }
+                            .pickerStyle(SegmentedPickerStyle())
+
+                            Text(modeExplanation)
+                                .font(.system(size: 11))
+                                .foregroundColor(AppColors.textSecondary)
+                                .padding(.top, 2)
+                        }
+                        .modernCard()
+
+                        // Adres domowy Wi-Fi
+                        VStack(alignment: .leading, spacing: 14) {
+                            HStack {
+                                Image(systemName: "house.fill")
+                                    .foregroundColor(AppColors.accentBlue)
+                                Text("POŁĄCZENIE W DOMU (LOKALNE WI-FI)")
+                                    .font(.system(size: 11, weight: .bold))
+                                    .foregroundColor(AppColors.textMuted)
+                            }
 
                             VStack(spacing: 12) {
-                                inputField(title: "Nazwa profilu", placeholder: "np. Komputer Michała", text: $profileName)
-                                inputField(title: "Adres IP / Host / Tunel", placeholder: "np. 192.168.1.150 lub domena.trycloudflare.com", text: $host)
+                                inputField(title: "Adres IP komputera w domu", placeholder: "np. 192.168.1.150", text: $host)
+                                inputField(title: "Port serwera", placeholder: "5050", text: $port, keyboardType: .numberPad)
+                            }
+                        }
+                        .modernCard()
 
-                                if !host.lowercased().hasPrefix("https://") && !host.lowercased().hasPrefix("http://") {
-                                    inputField(title: "Port serwera", placeholder: "5050", text: $port, keyboardType: .numberPad)
+                        // Adres zdalny poza domem
+                        VStack(alignment: .leading, spacing: 14) {
+                            HStack {
+                                Image(systemName: "globe")
+                                    .foregroundColor(AppColors.accentCyan)
+                                Text("POŁĄCZENIE POZA DOMEM (LTE / INTERNET)")
+                                    .font(.system(size: 11, weight: .bold))
+                                    .foregroundColor(AppColors.textMuted)
+                            }
 
-                                    Toggle(isOn: $useHttps) {
-                                        Text("Używaj szyfrowania HTTPS")
-                                            .font(.system(size: 14, weight: .medium))
-                                            .foregroundColor(.white)
-                                    }
-                                    .tint(AppColors.accentBlue)
-                                }
+                            VStack(spacing: 12) {
+                                inputField(
+                                    title: "Adres tunelu Cloudflare HTTPS",
+                                    placeholder: "np. https://twoj-tunel.trycloudflare.com",
+                                    text: $remoteURL
+                                )
 
+                                Text("Wygeneruj darmowy link na PC uruchamiając plik 'Uruchom_Zdalny_Dostep_Poza_Domem.bat'")
+                                    .font(.system(size: 11))
+                                    .foregroundColor(AppColors.textMuted)
+                            }
+                        }
+                        .modernCard()
+
+                        // PIN i Profil
+                        VStack(alignment: .leading, spacing: 14) {
+                            Text("AUTORYZACJA")
+                                .font(.system(size: 11, weight: .bold))
+                                .foregroundColor(AppColors.textMuted)
+
+                            VStack(spacing: 12) {
+                                inputField(title: "Nazwa komputera", placeholder: "np. Komputer Dziecka", text: $profileName)
                                 inputField(title: "Kod PIN Rodzica", placeholder: "1234", text: $pin, isSecure: true, keyboardType: .numberPad)
                             }
                         }
@@ -94,7 +143,7 @@ public struct ServerSetupView: View {
                             }
                         }
                         .buttonStyle(GlowingButtonStyle(gradient: AppColors.blueGradient))
-                        .disabled(isTesting || host.isEmpty)
+                        .disabled(isTesting || (host.isEmpty && remoteURL.isEmpty))
 
                         if let res = testResult {
                             Text(res)
@@ -108,12 +157,12 @@ public struct ServerSetupView: View {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack(spacing: 6) {
                                 Text("🌐")
-                                Text("Dostęp poza siecią domową WiFi")
+                                Text("Jak działa sterowanie poza domem?")
                                     .font(.system(size: 14, weight: .bold))
                                     .foregroundColor(.white)
                             }
 
-                            Text("Aby sterować komputerem przez LTE / dane komórkowe z dowolnego miejsca, uruchom na PC tunel Cloudflare:\n\ncloudflared tunnel --url http://localhost:5050\n\ni wklej wygenerowany adres https:// w pole powyżej.")
+                            Text("1. Na komputerze na Pulpicie uruchom plik: Uruchom_Zdalny_Dostep_Poza_Domem.bat\n2. Program wyświetli bezpieczny adres https://...trycloudflare.com\n3. Wklej ten adres w pole powyżej i włącz tryb 'Automatyczny'.\n4. Telefon sam połączy się przez Wi-Fi w domu, a gdy wyjdziesz z domu – przez LTE!")
                                 .font(.system(size: 12))
                                 .foregroundColor(AppColors.textSecondary)
                                 .lineSpacing(3)
@@ -151,9 +200,22 @@ public struct ServerSetupView: View {
                 profileName = viewModel.profile.name
                 host = viewModel.profile.host
                 port = "\(viewModel.profile.port)"
+                remoteURL = viewModel.profile.remoteURL
+                mode = viewModel.profile.mode
                 pin = viewModel.profile.pin
                 useHttps = viewModel.profile.useHttps
             }
+        }
+    }
+
+    private var modeExplanation: String {
+        switch mode {
+        case .auto:
+            return "W domu aplikacja łączy się błyskawicznie po Wi-Fi. Po wyjściu z domu automatycznie przełącza się na tunel LTE."
+        case .local:
+            return "Połączenie tylko w domowej sieci Wi-Fi pod adresem IP."
+        case .remote:
+            return "Wymuszenie połączenia przez adres zewnętrzny / tunel Cloudflare."
         }
     }
 
@@ -192,16 +254,18 @@ public struct ServerSetupView: View {
     }
 
     private func handleScannedCode(_ code: String) {
-        // Code could be "http://192.168.1.150:5050" or "https://xxx.trycloudflare.com"
         HapticService.shared.notification(.success)
         if let url = URL(string: code) {
-            if let hostStr = url.host {
-                self.host = hostStr
+            if code.contains("trycloudflare") || code.contains("ngrok") {
+                self.remoteURL = code
+            } else {
+                if let hostStr = url.host {
+                    self.host = hostStr
+                }
+                if let portNum = url.port {
+                    self.port = "\(portNum)"
+                }
             }
-            if let portNum = url.port {
-                self.port = "\(portNum)"
-            }
-            self.useHttps = url.scheme == "https"
         } else {
             self.host = code
         }
@@ -212,6 +276,8 @@ public struct ServerSetupView: View {
         viewModel.profile.name = profileName.isEmpty ? "Komputer Dziecka" : profileName
         viewModel.profile.host = host
         viewModel.profile.port = p
+        viewModel.profile.remoteURL = remoteURL
+        viewModel.profile.mode = mode
         viewModel.profile.pin = pin
         viewModel.profile.useHttps = useHttps
         HapticService.shared.notification(.success)
@@ -225,6 +291,8 @@ public struct ServerSetupView: View {
             name: profileName,
             host: host,
             port: Int(port) ?? 5050,
+            remoteURL: remoteURL,
+            mode: mode,
             pin: pin,
             useHttps: useHttps
         )
@@ -233,7 +301,8 @@ public struct ServerSetupView: View {
             do {
                 let status = try await APIService.shared.getStatus(profile: testProfile)
                 isTesting = false
-                testResult = "Połączono z sukcesem! PC aktywny. Użytkownik: \(status.activeUserName)"
+                let connType = testProfile.isCurrentlyUsingRemote ? "Zdalne (LTE/Tunel)" : "Lokalne (Wi-Fi)"
+                testResult = "Połączono z sukcesem! [\(connType)] Użytkownik PC: \(status.activeUserName)"
                 HapticService.shared.notification(.success)
             } catch {
                 isTesting = false
@@ -243,4 +312,3 @@ public struct ServerSetupView: View {
         }
     }
 }
-

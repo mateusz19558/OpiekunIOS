@@ -91,7 +91,7 @@ public struct LiveScreenView: View {
                                 .fill(AppColors.cardBackground)
                                 .overlay(RoundedRectangle(cornerRadius: 16).stroke(AppColors.cardBorder, lineWidth: 1))
 
-                            if let img = screenVM.image {
+                            if screenVM.image != nil {
                                 Image(uiImage: img)
                                     .resizable()
                                     .scaledToFit()
@@ -169,7 +169,7 @@ public struct LiveScreenView: View {
                         }
 
                         // Save & Share Buttons
-                        if let img = screenVM.image {
+                        if screenVM.image != nil {
                             HStack(spacing: 12) {
                                 Button {
                                     screenVM.saveToPhotos { success, msg in

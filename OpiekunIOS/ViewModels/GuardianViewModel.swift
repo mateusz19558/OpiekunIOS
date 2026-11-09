@@ -25,7 +25,6 @@ public final class GuardianViewModel: ObservableObject {
     private var statusPollTimer: Timer?
 
     public init() {
-        // Load saved profile or create default
         if let data = UserDefaults.standard.data(forKey: "saved_connection_profile"),
            let saved = try? JSONDecoder().decode(ConnectionProfile.self, from: data) {
             self.profile = saved
@@ -34,6 +33,7 @@ public final class GuardianViewModel: ObservableObject {
         }
 
         setupSSE()
+        setupNotificationHandling()
     }
 
     private func saveProfile() {
@@ -42,14 +42,24 @@ public final class GuardianViewModel: ObservableObject {
         }
     }
 
+    private func setupNotificationHandling() {
+        NotificationService.shared.onTimeRequestAction = { [weak self] requestId, approved, minutes in
+            Task { @MainActor [weak self] in
+                guard let self = self else { return }
+                await self.respondToTimeRequest(id: requestId, approved: approved, minutes: minutes)
+            }
+        }
+    }
+
     private func setupSSE() {
         sseClient.onStatusReceived = { [weak self] newStatus in
             guard let self = self else { return }
 
-            // Check if there are new time requests to notify
+            // Sprawdź czy są nowe prośby o czas od dziecka
             let oldIds = Set(self.status.pendingTimeRequests.map { $0.id })
             for req in newStatus.pendingTimeRequests where !oldIds.contains(req.id) {
                 NotificationService.shared.showTimeRequestNotification(
+                    requestId: req.id,
                     from: newStatus.targetUserName,
                     minutes: req.requestedMinutes,
                     reason: req.reason
@@ -63,6 +73,18 @@ public final class GuardianViewModel: ObservableObject {
 
         sseClient.onConnectionChanged = { [weak self] connected in
             self?.isConnected = connected
+        }
+    }
+
+    // MARK: - Connection Mode & Remote Switching
+    public func switchConnectionMode(_ newMode: ConnectionMode) {
+        profile.mode = newMode
+        profile.isRemoteFallbackActive = (newMode == .remote)
+        HapticService.shared.selection()
+        stopLiveStream()
+        Task {
+            await refreshStatus()
+            startLiveStream()
         }
     }
 
@@ -88,6 +110,24 @@ public final class GuardianViewModel: ObservableObject {
                 return false
             }
         } catch {
+            // Spróbuj przełączyć na tryb zdalny jeśli w trybie auto
+            if profile.mode == .auto && !profile.cleanRemoteURLString.isEmpty && !profile.isRemoteFallbackActive {
+                profile.isRemoteFallbackActive = true
+                do {
+                    let valid = try await APIService.shared.verifyPin(pin: pin, profile: profile)
+                    isLoading = false
+                    if valid {
+                        profile.pin = pin
+                        saveProfile()
+                        isAuthenticated = true
+                        HapticService.shared.notification(.success)
+                        await refreshStatus()
+                        startLiveStream()
+                        return true
+                    }
+                } catch { }
+            }
+
             isLoading = false
             HapticService.shared.notification(.error)
             errorMessage = error.localizedDescription
@@ -98,9 +138,9 @@ public final class GuardianViewModel: ObservableObject {
     public func startLiveStream() {
         sseClient.connect(profile: profile)
 
-        // Backup polling every 10s if SSE drops
+        // Polling awaryjny co 8s
         statusPollTimer?.invalidate()
-        statusPollTimer = Timer.scheduledTimer(withTimeInterval: 10.0, repeats: true) { [weak self] _ in
+        statusPollTimer = Timer.scheduledTimer(withTimeInterval: 8.0, repeats: true) { [weak self] _ in
             Task { @MainActor [weak self] in
                 guard let self = self, self.isAuthenticated, !self.sseClient.isConnected else { return }
                 await self.refreshStatus()
@@ -120,6 +160,20 @@ public final class GuardianViewModel: ObservableObject {
             self.status = fetched
             self.isConnected = true
         } catch {
+            // Inteligentne automatyczne przełączanie: Dom <-> Poza domem (LTE)
+            if profile.mode == .auto && !profile.cleanRemoteURLString.isEmpty {
+                var testProfile = profile
+                testProfile.isRemoteFallbackActive = !profile.isRemoteFallbackActive
+                do {
+                    let fetched = try await APIService.shared.getStatus(profile: testProfile)
+                    self.profile.isRemoteFallbackActive = testProfile.isRemoteFallbackActive
+                    self.status = fetched
+                    self.isConnected = true
+                    self.stopLiveStream()
+                    self.startLiveStream()
+                    return
+                } catch { }
+            }
             self.isConnected = false
         }
     }
@@ -275,4 +329,3 @@ public final class GuardianViewModel: ObservableObject {
         }
     }
 }
-
