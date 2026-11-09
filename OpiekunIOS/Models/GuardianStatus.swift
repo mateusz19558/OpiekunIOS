@@ -29,6 +29,8 @@ public struct GuardianStatus: Codable, Equatable {
     public var serverPort: Int
     public var lastParentMessage: String
     public var lastScreenshotTime: String?
+    public var isRemoteModeActive: Bool?
+    public var blockRemoteInput: Bool?
 
     public init(
         isLocked: Bool = false,
@@ -57,7 +59,9 @@ public struct GuardianStatus: Codable, Equatable {
         localIpAddresses: [String] = [],
         serverPort: Int = 5050,
         lastParentMessage: String = "",
-        lastScreenshotTime: String? = nil
+        lastScreenshotTime: String? = nil,
+        isRemoteModeActive: Bool? = false,
+        blockRemoteInput: Bool? = false
     ) {
         self.isLocked = isLocked
         self.lockReason = lockReason
@@ -86,6 +90,8 @@ public struct GuardianStatus: Codable, Equatable {
         self.serverPort = serverPort
         self.lastParentMessage = lastParentMessage
         self.lastScreenshotTime = lastScreenshotTime
+        self.isRemoteModeActive = isRemoteModeActive
+        self.blockRemoteInput = blockRemoteInput
     }
 
     // Helper calculated properties

@@ -316,5 +316,18 @@ public final class APIService {
             throw APIError.serverError((response as? HTTPURLResponse)?.statusCode ?? -1)
         }
     }
+
+    // MARK: - Remote Mode
+    public func setRemoteMode(enabled: Bool, blockInput: Bool, profile: ConnectionProfile) async throws {
+        let body = try JSONSerialization.data(withJSONObject: [
+            "enabled": enabled,
+            "blockInput": blockInput
+        ])
+        let req = try makeRequest(endpoint: "/api/remote-mode", method: "POST", profile: profile, body: body)
+        let (_, response) = try await session.data(for: req)
+        guard let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) else {
+            throw APIError.serverError((response as? HTTPURLResponse)?.statusCode ?? -1)
+        }
+    }
 }
 

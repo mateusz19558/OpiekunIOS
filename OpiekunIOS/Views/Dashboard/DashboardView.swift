@@ -104,6 +104,9 @@ public struct DashboardView: View {
                         // Master Lock Card
                         LockControlCard(viewModel: viewModel)
 
+                        // Remote Mode Card (Tryb Zdalny)
+                        RemoteModeCard(viewModel: viewModel)
+
                         // Activity Gauge & Time Usage Card
                         TimeUsageRingCard(viewModel: viewModel)
 

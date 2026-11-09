@@ -179,6 +179,32 @@ public final class GuardianViewModel: ObservableObject {
     }
 
     // MARK: - Actions
+    public func toggleRemoteMode() async {
+        HapticService.shared.impact(.heavy)
+        let currentActive = status.isRemoteModeActive ?? false
+        let currentBlockInput = status.blockRemoteInput ?? false
+        let targetState = !currentActive
+        do {
+            try await APIService.shared.setRemoteMode(enabled: targetState, blockInput: currentBlockInput, profile: profile)
+            status.isRemoteModeActive = targetState
+            showToast(targetState ? "Tryb zdalny aktywny 📡" : "Wyłączono tryb zdalny")
+        } catch {
+            showToast("Błąd trybu zdalnego: \(error.localizedDescription)")
+        }
+    }
+
+    public func setRemoteInputBlocked(_ blocked: Bool) async {
+        HapticService.shared.impact(.medium)
+        let currentActive = status.isRemoteModeActive ?? false
+        do {
+            try await APIService.shared.setRemoteMode(enabled: currentActive, blockInput: blocked, profile: profile)
+            status.blockRemoteInput = blocked
+            showToast(blocked ? "Klawiatura i mysz zablokowane 🚫" : "Odblokowano mysz i klawiaturę ⌨️")
+        } catch {
+            showToast("Błąd zmiany blokady: \(error.localizedDescription)")
+        }
+    }
+
     public func toggleLock() async {
         HapticService.shared.impact(.heavy)
         let targetState = !status.isLocked
